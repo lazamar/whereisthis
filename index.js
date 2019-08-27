@@ -16,14 +16,15 @@ var upload = multer({
 	})
 });
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, "index.html")))
 
 app.use("/public/", express.static(IMAGES_DIR));
+
 app.post(
 	"/find", 
 	upload.single("file"), 
 	(req, res) => {
-		  var imagePath = req.file.path.replace(/^public\//, '');
+		  var imagePath = "public/" + req.file.filename;
 		  res.redirect(imagePath);
 	}
 )

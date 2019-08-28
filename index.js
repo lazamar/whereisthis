@@ -5,12 +5,15 @@ const Future = require("fluture");
 const http = require("http");
 const fs = require("fs");
 
-const app = express()
-const PORT = 9090
-const WHEREMLPORT = 8080;
 const IMAGES_DIR = path.join(__dirname, "images");
-const id = a => a;
+const PORT = 9090
+const WHEREML = {
+    port: 8080,
+    hostname: "localhost"
+}
 
+const id = a => a;
+const app = express();
 var upload = multer({ 
 	storage: multer.diskStorage({
 		destination: function (req, file, cb) {
@@ -33,8 +36,8 @@ app.post(
 
 		request({
 		  	method: "GET",
-		    hostname: "localhost",
-		    port: WHEREMLPORT,
+		    hostname: WHEREML.hostname,
+		    port: WHEREML.port,
 		    path: "/from_local?path=" + fileName
 		})
         .bimap(
@@ -47,7 +50,7 @@ app.post(
 	}
 )
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+app.listen(PORT, () => console.log(`Listening on port ${PORT}!`))
 
 // ==================
 

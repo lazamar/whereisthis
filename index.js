@@ -4,6 +4,7 @@ const multer = require("multer");
 const Future = require("fluture");
 const http = require("http");
 const fs = require("fs");
+const StaticMaps = require("staticmaps");
 
 const IMAGES_DIR = path.join(__dirname, "images");
 const PORT = 9090
@@ -27,6 +28,9 @@ var upload = multer({
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, "index.html")))
 
+app.use("/static", express.static("static"));
+
+const mapPath = path.join(__dirname, "static/map.jpg");
 app.post(
 	"/find", 
 	upload.single("file"), 
@@ -40,13 +44,13 @@ app.post(
 		    port: WHEREML.port,
 		    path: "/from_local?path=" + fileName
 		})
-        .bimap(
-          err => res.send(err),
-          ({ body }) => res.send(JSON.parse(body))
-        )
-        .chain(() => deleteFile(filePath))
-        .chainRej(() => deleteFile(filePath))
-		.fork(id, id)
+        .map(({ body }) => JSON.parse(body))
+        .chain(results => {
+            const markers = results.map(v => v[0].reverse());
+            return createMap(mapPath, markers);
+        })
+        .lastly(deleteFile(filePath))
+        .fork(res.send, () => res.sendFile(mapPath))
 	}
 )
 
@@ -80,4 +84,27 @@ const request = (options, payload = "") =>
  	})
 
 
+const mapOptions = { width: 600, height: 400 };
+const markerImage = path.join(__dirname, "static/marker.png");
+const createMap = (filePathAndName, markers) => 
+    Future((reject, resolve) => {
+        const map = new StaticMaps(mapOptions);
+
+        markers.forEach(coord => {
+            const marker = { 
+                img: markerImage,
+                offsetX: 24,
+                offsetY: 48,
+                width: 48,
+                height: 48,            
+                coord 
+            };
+
+            map.addMarker(marker);
+        });
+
+        map.render()            
+            .then(() => map.image.save(filePathAndName, { compressionLevel: 9 }))
+            .then(resolve, reject)
+    });
 

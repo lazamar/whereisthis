@@ -5,6 +5,7 @@ const Future = require("fluture");
 const http = require("http");
 const fs = require("fs");
 const StaticMaps = require("staticmaps");
+const exphbs = require("express-handlebars");
 
 const IMAGES_DIR = path.join(__dirname, "images");
 const PORT = 9090
@@ -14,7 +15,6 @@ const WHEREML = {
 }
 
 const id = a => a;
-const app = express();
 var upload = multer({ 
 	storage: multer.diskStorage({
 		destination: function (req, file, cb) {
@@ -26,7 +26,14 @@ var upload = multer({
 	})
 });
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, "index.html")))
+const app = express();
+
+// Setup handlebars
+app.engine( ".hbs", exphbs({ extname: ".hbs", defaultLayout: false }));
+app.set("view engine", ".hbs");
+app.set("views", "views");
+
+app.get('/', (req, res) => res.render("index"))
 
 app.use("/static", express.static("static"));
 

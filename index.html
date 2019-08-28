@@ -1,36 +1,14 @@
+<!DOCTYPE html>
 <html>
 <head>
+	<title>WhereIsIt</title>
 </head>
 <body>
-	<h1>Here is a page</h1>
+	<h1>Upload your image</h1>
 	<form method="post" action="/find" enctype="multipart/form-data">
 	  	<input type="file" name="file" />	
 	  	<input type="hidden" name="test" value="test value"/>
-	  	<button type="submitt">Submitt</button>
+	  	<button type="submitt">Submit</button>
 	</form>
-
-	<div id="map"></div>
-	<style type="text/css">
-		#map {
-			width: 500px;
-			height: 500px;
-		}
-	</style>
-	<script type="text/javascript">
-		function initMap() {
-		  var myLatLng = {lat: -25.363, lng: 131.044};
-
-		  var map = new google.maps.Map(document.getElementById('map'), {
-		    zoom: 4,
-		    center: myLatLng
-		  });
-
-		  var marker = new google.maps.Marker({
-		    position: myLatLng,
-		    map: map,
-		    title: 'Hello World!'
-		  });
-		}
-	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap"> </script></body>
+</body>
 </html>

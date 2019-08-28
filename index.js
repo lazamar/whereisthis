@@ -50,7 +50,7 @@ app.post(
             return createMap(mapPath, markers);
         })
         .lastly(deleteFile(filePath))
-        .fork(res.send, () => res.sendFile(mapPath))
+        .fork(res.send, (b64) => res.send(b64))
 	}
 )
 
@@ -86,6 +86,7 @@ const request = (options, payload = "") =>
 
 const mapOptions = { width: 600, height: 400 };
 const markerImage = path.join(__dirname, "static/marker.png");
+// Returns a base64-encoded image url
 const createMap = (filePathAndName, markers) => 
     Future((reject, resolve) => {
         const map = new StaticMaps(mapOptions);
@@ -104,7 +105,8 @@ const createMap = (filePathAndName, markers) =>
         });
 
         map.render()            
-            .then(() => map.image.save(filePathAndName, { compressionLevel: 9 }))
+            .then(() => map.image.buffer())
+            .then(buffer => "data:image/png;base64," + buffer.toString('base64'))
             .then(resolve, reject)
-    });
+    })
 

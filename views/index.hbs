@@ -1,6 +1,15 @@
-<h1>Upload your image</h1>
-<form method="post" action="/find" enctype="multipart/form-data">
-  	<input type="file" name="file" />	
-  	<input type="hidden" name="test" value="test value"/>
-  	<button type="submitt">Submit</button>
-</form>
+<section class="input-form">
+	<p>Find out where on earth that picture was taken.</p>
+
+	<form method="post" action="/find" enctype="multipart/form-data">
+		<label class="input-form-fileButton"> 
+			<input 
+				type="file" 
+				name="file" 
+				style="visibility: hidden; position: absolute" 
+				onchange="this.form.submit();"
+			/>	
+			Choose a file...
+		</label>
+	</form>
+</section>

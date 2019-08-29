@@ -4,7 +4,6 @@ const multer = require("multer");
 const Future = require("fluture");
 const http = require("http");
 const fs = require("fs");
-const StaticMaps = require("staticmaps");
 const exphbs = require("express-handlebars");
 
 const IMAGES_DIR = path.join(__dirname, "images");
@@ -41,7 +40,6 @@ app.get('/', (req, res) => res.render("index"))
 
 app.use("/static", express.static("static"));
 
-const mapPath = path.join(__dirname, "static/map.jpg");
 app.post(
 	"/find", 
 	upload.single("file"), 
@@ -57,7 +55,6 @@ app.post(
 		})
         .map(({ body }) => JSON.parse(body))
         .map(results => results .map(v => v[0]))
-        // .chain(markers => createMap(mapPath, markers))
         .lastly(deleteFile(filePath))
         .fork(
             res.send, 
@@ -94,31 +91,3 @@ const request = (options, payload = "") =>
 			resolve();
     	});
  	})
-
-
-const mapOptions = { width: 600, height: 400 };
-const markerImage = path.join(__dirname, "static/marker.png");
-// Returns a base64-encoded image url
-const createMap = (filePathAndName, markers) => 
-    Future((reject, resolve) => {
-        const map = new StaticMaps(mapOptions);
-
-        markers.forEach(coord => {
-            const marker = { 
-                img: markerImage,
-                offsetX: 24,
-                offsetY: 48,
-                width: 48,
-                height: 48,            
-                coord: coord.reverse()
-            };
-
-            map.addMarker(marker);
-        });
-
-        map.render()            
-            .then(() => map.image.buffer())
-            .then(buffer => "data:image/png;base64," + buffer.toString('base64'))
-            .then(resolve, reject)
-    })
-

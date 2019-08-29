@@ -54,7 +54,7 @@ app.post(
         whereml.locate(fileName)
             .lastly(deleteFile(filePath))
             .fork(
-                res.send, 
+                err => res.send(err), 
                 markers => res.render( "result", { markers }) 
             );
 	}

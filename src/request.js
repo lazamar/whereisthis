@@ -3,9 +3,19 @@ const Future = require("fluture");
 const http = require("http");
 const https = require("https");
 
-module.exports = (options, payload = "") =>
+const removeProtocol = host => host.replace(/^[^\.]*:\/\//, "");
+
+const withoutProtocol = options => 
+    Object.assign(
+        {}, 
+        options, 
+        { hostname: removeProtocol(options.hostname) }
+    );
+
+module.exports = (rawOptions, payload = "") =>
     Future((reject, resolve) => {
-    	const protocol = options.hostname.startsWith("https") ? https : http;
+    	const protocol = rawOptions.hostname.startsWith("https") ? https : http;
+        const options = withoutProtocol(rawOptions);
 
         const req = protocol.request(options, res => {
             res.setEncoding("utf8");

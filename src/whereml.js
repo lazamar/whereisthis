@@ -3,13 +3,14 @@
 const Future = require("fluture");
 const request = require("./request");
 const path = require("path");
+const absolute = require("./absolute");
 
 const WHEREML_PORT =  8080;
 const WHEREML_HOST = "localhost";
 
 module.exports = {};
 
-module.exports.IMAGES_DIR = path.resolve(__dirname, "../images");
+module.exports.IMAGES_DIR = absolute("@root/images");
 
 module.exports.locate = filePath => 
 	request({

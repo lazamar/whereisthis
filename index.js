@@ -29,7 +29,11 @@ var upload = multer({
 const app = express();
 
 // Setup handlebars
-app.engine( ".hbs", exphbs({ extname: ".hbs", defaultLayout: false }));
+app.engine( ".hbs", exphbs({ 
+    extname: ".hbs", 
+    helpers: { json: JSON.stringify }
+}));
+
 app.set("view engine", ".hbs");
 app.set("views", "views");
 
@@ -52,12 +56,13 @@ app.post(
 		    path: "/from_local?path=" + fileName
 		})
         .map(({ body }) => JSON.parse(body))
-        .chain(results => {
-            const markers = results.map(v => v[0].reverse());
-            return createMap(mapPath, markers);
-        })
+        .map(results => results .map(v => v[0]))
+        // .chain(markers => createMap(mapPath, markers))
         .lastly(deleteFile(filePath))
-        .fork(res.send, (b64) => res.send(b64))
+        .fork(
+            res.send, 
+            markers => res.render( "result", { markers, test: 2 }) 
+        );
 	}
 )
 
@@ -105,7 +110,7 @@ const createMap = (filePathAndName, markers) =>
                 offsetY: 48,
                 width: 48,
                 height: 48,            
-                coord 
+                coord: coord.reverse()
             };
 
             map.addMarker(marker);

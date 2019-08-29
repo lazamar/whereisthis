@@ -20,11 +20,3 @@ module.exports.locate = filePath =>
 	    path: "/from_local?path=" + filePath
 	})
 	.map(({ body }) => JSON.parse(body))
-	.map(results => 
-		results.map(v => ({ 
-			description: v[2],
-			confidence : v[1],
-			latitude: v[0][0],
-			longitude: v[0][1]
-		}))
-	);

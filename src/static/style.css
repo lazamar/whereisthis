@@ -27,6 +27,11 @@ section {
 	padding: 1px;
 }
 
+.navbar-title {
+	text-decoration: none;
+	color: inherit;
+}
+
 .input-form {
 	text-align: center;
     padding: 100px 0;

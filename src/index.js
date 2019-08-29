@@ -8,20 +8,24 @@ const exphbs = require("express-handlebars");
 const request = require("./request");
 const whereml = require("./whereml");
 const absolute = require("./absolute");
+const env = require(absolute("@root/env.json"));
 
 const app = express();
 
 // Setup handlebars
 app.engine( ".hbs", exphbs({ 
     extname: ".hbs", 
-    helpers: { json: JSON.stringify }
+    helpers: { 
+        json: JSON.stringify,
+        abs: p => env.host + p
+    }
 }));
 app.set("view engine", ".hbs");
 app.set("views", absolute("@root/src/views"));
 
-app.get('/', (req, res) => res.render("index"))
-
 app.use("/static", express.static(absolute("@root/src/static")));
+
+app.get('/', (req, res) => res.render("index"))
 
 const upload = multer({ 
     storage: multer.diskStorage({
@@ -41,7 +45,7 @@ const deleteFile = filePath =>
 })
 
 app.post(
-	"/find", 
+	"/", 
 	upload.single("file"), 
 	(req, res) => {
         const fileName = req.file.filename;
@@ -58,6 +62,4 @@ app.post(
 
 const PORT = 9090
 app.listen(PORT, () => console.log(`Listening on port ${PORT}!`))
-
-// ==================
 

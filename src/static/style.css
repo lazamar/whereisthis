@@ -16,6 +16,13 @@ section {
 	margin: auto;
 }
 
+#map {
+	width: 600px;
+	height: 400px;
+}
+
+/* FORM */
+
 .navbar {
 	padding: 1px;
 }
@@ -30,12 +37,12 @@ section {
     padding: 20px;
     font-size: 1rem;
     border-radius: 5px;
-	box-shadow: 0px 0px 4px 0px black;
+    background-color: black;
+    color: white;
 }
 
 .input-form-fileButton:hover {
 	cursor: pointer;
-	background-color: #efdc32;
 }
 
 .input-form-fileButton:active {
@@ -45,3 +52,4 @@ section {
 .input-form-fileButton:focus {
 	outline: 1px solid blue;
 }
+

@@ -13,12 +13,14 @@
 
     <meta charset="utf-8">
     <title>Where Is This?</title>
-    <link rel="stylesheet" type="text/css" href="./static/style.css">
+    <link rel="stylesheet" type="text/css" href="{{abs "/static/style.css"}}">
 </head>
 <body>
 	<nav class="navbar">
 		<section> 
-			<h1>Where Is This?</h1>
+			<a href="{{abs "/"}}">
+				<h1>Where Is This?</h1>
+			</a>
 		</section>
 	</nav>
     {{{body}}}

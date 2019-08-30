@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+
 	<!-- Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-68439335-5"></script>
 	<script>
@@ -11,26 +13,34 @@
 	  gtag('config', 'UA-68439335-5');
 	</script>
 
-    <meta charset="utf-8">
     <title>Where Is This?</title>
+    <meta name="description" content="Find out where on earth that picture was taken.">
+    <meta name="author" content="Marcelo Lazaroni"/>
+    <meta name="title" content="Where Is This?"/>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <link rel="stylesheet" type="text/css" href="{{abs "/static/style.css"}}">
 </head>
 <body>
-	<nav class="navbar">
-		<section> 
-			<a href="{{abs "/"}}" class="navbar-title">
-				<h1>Where Is This?</h1>
-			</a>
-		</section>
-	</nav>
-    {{{body}}}
-    <section>
-    	<p>This project is based on the paper [..]</p>
-    	<p>The backend uses code from WhereML</p>
-    </section>
+	<div class="wrapper">
+		<nav class="navbar">
+			<section> 
+				<a href="{{abs "/"}}" class="navbar-title">
+					<h1>Where Is This?</h1>
+				</a>
+			</section>
+		</nav>
+	    {{{body}}}
 
-    <footer>
-    		build with love by <a href="twitter/lazamar">@lazamar</a>
-    </footer>
+	    <footer>
+	    	<p>This project is based on the paper <a href="https://ai.google/research/pubs/pub45488">PlaNet - Photo Geolocation with Convolutional Neural Networks</a> by Tobias Weyand, Ilya Kostrikov and James Philbin</p>
+
+	    	<p>We use J. Randall Hunt's implementation in <a href="https://github.com/ranman/WhereML">WhereML</a></p>
+
+	    	<p style="text-align: center">
+			    Build with love by <a href="http://lazamar.github.io/about/">@lazamar</a>	
+			</p>
+	    </footer>
+	</div>
 </body>
 </html>

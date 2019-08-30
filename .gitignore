@@ -3,3 +3,4 @@ images
 env.*
 plaNet/model/RN101-5k500-0012.params
 plaNet/model/RN101-5k500-symbol.json
+*.pyc

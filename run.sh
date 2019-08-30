@@ -1,5 +1,5 @@
-docker build . -t whereisthis
-docker run \
-	-p 8080:8080 \
-	-v $(pwd)/images:/static \
-	whereisthis
+# Start python server in the background
+python3 plaNet/app.py &
+
+# Start node server in the background
+node src/index.js

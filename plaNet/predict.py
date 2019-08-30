@@ -1,5 +1,5 @@
 import os
-import pathlib
+from pathlib  import Path
 import urllib
 from collections import namedtuple
 
@@ -9,7 +9,7 @@ import numpy as np
 from skimage import io, transform
 
 
-currentFolder = str(pathlib.Path(__file__).parent)
+currentFolder = str(Path(__file__).parent)
 MODEL_PATH = os.path.join(currentFolder,"model")
 MODEL_NAME = "RN101-5k500"
 EPOCH = 12

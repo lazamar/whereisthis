@@ -30,7 +30,10 @@
 		const frag = document.createDocumentFragment();
 		points.forEach(m => {
 			const desc = document.createElement("li");
-			desc.appendChild(document.createTextNode(m.description));
+
+			const txt = document.createTextNode(m.description + " ")
+			desc.appendChild(txt);
+
 			const flag = document.createElement("img");
 			flag.classList.add("flag");
 			flag.setAttribute("src", "{{abs "/static/flags/"}}" + m.cc.toLowerCase() + ".png");

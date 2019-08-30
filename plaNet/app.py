@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import flask
 from flask import request, jsonify
 import predict
@@ -19,10 +21,13 @@ def invoke():
     return jsonify(result)
 
 
+ROOT = str(Path(__file__).parent.parent)
+IMAGES_DIR = os.path.join(ROOT, "images")
+
 # /from_local?path=image.jpg
 @app.route("/from_local")
 def local():
-    path = "/static/" + request.args.get("path")
+    path = os.path.join(IMAGES_DIR, request.args.get("path"))
     coords = predict.predict_from_local_path(path)
     enriched = enrich.coordinates(coords)
     return jsonify(enriched)

@@ -15,7 +15,14 @@
 		}).addTo(map);
 
 		const points = {{{json markers}}};
-		const markers = points.map(point => L.marker([ point.latitude, point.longitude ]).addTo(map))
+		const markers = points.map((point, idx) => {
+			const marker = L.marker([ point.latitude, point.longitude ])
+				.addTo(map)
+				.bindPopup(point.description);
+
+			if (idx === 0) marker.openPopup()
+			return marker;
+		})
 		var group = new L.featureGroup(markers);
 		map.fitBounds(group.getBounds());
 
@@ -23,7 +30,14 @@
 		const frag = document.createDocumentFragment();
 		points.forEach(m => {
 			const desc = document.createElement("li");
-			desc.innerHTML = m.description;
+			desc.appendChild(document.createTextNode(m.description));
+			const flag = document.createElement("img");
+			flag.classList.add("flag");
+			flag.setAttribute("src", "{{abs "/static/flags/"}}" + m.cc.toLowerCase() + ".png");
+			desc.appendChild(flag);
+
+			const confidence = " ( " + Math.round(m.confidence * 100) + "% confidence )"
+			desc.appendChild(document.createTextNode(confidence));
 			frag.appendChild(desc);
 		});
 		document.querySelector(".descriptions").appendChild(frag);

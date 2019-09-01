@@ -13,10 +13,10 @@ def ping():
     return "", 200
 
 
-# /from_url?url=URL_ENCODED_IMAGE_ADDRESS
-@app.route("/from_url")
+@app.route("/from_url", methods=["POST"])
 def invoke():
-    url = request.args.get("url");
+    data = request.get_json(force=True)
+    url = data['url'];
     result = predict.predict_from_url(url)
     return jsonify(result)
 

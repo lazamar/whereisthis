@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import flask
-from flask import request, jsonify
+from flask import request, jsonify, send_from_directory
 import predict
 import enrich
 
@@ -11,6 +11,11 @@ app = flask.Flask("WhereML")
 @app.route("/ping")
 def ping():
     return "", 200
+
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('../static', path)
 
 
 @app.route("/from_url", methods=["POST"])
